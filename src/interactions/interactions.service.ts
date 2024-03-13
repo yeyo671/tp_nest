@@ -1,16 +1,21 @@
 // src/interactions/interactions.service.ts
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CharactersService } from 'src/character/character.service';
 import { Character } from 'src/character/character.model';
 
 @Injectable()
 export class InteractionsService {
-    constructor(private charactersService: CharactersService) { }
+    constructor(private charactersService: CharactersService, @Inject('CONFIG_OPTIONS') private configOptions: any
+    ) { }
 
     simulateFight(characterId1: string, characterId2: string): string {
         const character1 = this.charactersService.getCharacterById(characterId1);
         const character2 = this.charactersService.getCharacterById(characterId2);
+
+        if (this.configOptions.enableInteractions === false) {
+            return 'Les interactions sont désactivées.';
+        }
 
         if (!character1 || !character2) {
             throw new NotFoundException('Character not found');

@@ -12,7 +12,7 @@ import { ConfigModule } from './config/config.module';
     CharacterModule,
     ConfigModule.forRoot({
       featureToggle: {
-        enableInteractions: true,
+        enableInteraction: true, // Change to false to disable interactions
       },
     }),],
   controllers: [AppController, InteractionsController],
